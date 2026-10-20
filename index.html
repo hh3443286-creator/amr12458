@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>صيدلية الدكتور عمرو</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+--bg:#07111f;--card:#101f32;--blue:#08b9ee;
+--blue2:#087cff;--muted:#a9b9cc;--line:#203b55
+}
+body{font-family:Tahoma,Arial,sans-serif;background:var(--bg);color:#fff;line-height:1.8}
+button,input{font:inherit}
+button{cursor:pointer}
+header{background:#0c192a;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10;padding:12px 4%}
+.nav{max-width:1200px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.logo{font-size:20px;font-weight:bold;color:var(--blue);text-decoration:none}
+.nav-actions{display:flex;gap:8px;flex-wrap:wrap}
+button{border:0}
+.nav-btn,.back{background:#20364d;color:white;border:1px solid #34516b;border-radius:10px;padding:8px 12px}
+.nav-btn:hover,.back:hover{background:#087cff}
+main{max-width:1200px;margin:auto;padding:20px}
+.hero{display:grid;grid-template-columns:1fr 1fr;gap:25px;align-items:center;padding:20px 0 35px}
+.hero h1{font-size:clamp(27px,4vw,43px);line-height:1.6;margin-bottom:12px}
+.hero h1 span{color:var(--blue)}
+.hero p,.muted{color:var(--muted)}
+.hero p{margin-bottom:18px}
+.hero img{width:100%;height:300px;object-fit:cover;border-radius:20px;border:1px solid var(--line)}
+.btn{background:linear-gradient(135deg,var(--blue),var(--blue2));color:white;border-radius:10px;padding:10px 14px;font-weight:bold}
+.btn.secondary{background:#263b50}
+h2{font-size:25px}
+.subtitle{text-align:center;color:var(--muted);margin-bottom:22px;font-size:14px}
+.center{text-align:center}
+.notice{background:#302611;color:#ffe7a3;border:1px solid #6d5725;border-radius:12px;padding:12px;margin:15px 0 20px;font-size:12px}
+.category-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.category{background:var(--card);color:white;text-align:right;border:1px solid var(--line);border-radius:17px;overflow:hidden;transition:.2s}
+.category:hover{border-color:var(--blue);transform:translateY(-3px)}
+.category img{width:100%;height:180px;object-fit:cover;display:block;background:#172b40}
+.category-info{padding:13px}
+.category-info h3{font-size:19px}
+.category-info p{color:var(--muted);font-size:12px}
+.enter{color:var(--blue);font-weight:bold;font-size:13px;margin-top:7px}
+.page-heading{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:8px 0 20px}
+.page-heading h2{flex:1}
+.back{white-space:nowrap}
+.search{width:100%;background:#0c192a;color:white;border:1px solid #29445e;border-radius:12px;padding:12px;outline:none;margin:12px 0}
+.search:focus{border-color:var(--blue)}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:15px}
+.filter{background:#14273c;border:1px solid #29445e;color:white;border-radius:20px;padding:7px 12px;font-size:12px}
+.filter.active{background:#087cff}
+.results{color:var(--muted);font-size:12px;margin-bottom:12px}
+.products{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.product{background:var(--card);border:1px solid var(--line);border-radius:15px;overflow:hidden;display:flex;flex-direction:column;min-width:0}
+.product img{width:100%;height:145px;object-fit:cover;background:#182b40}
+.product-body{padding:11px;display:flex;flex-direction:column;gap:7px;flex:1}
+.tag{font-size:10px;background:#12384b;color:#76dcf6;border-radius:20px;padding:3px 7px;align-self:flex-start}
+.product h3{font-size:14px;line-height:1.6}
+.desc{font-size:11px;color:var(--muted)}
+.price{font-size:17px;font-weight:bold;margin-top:auto}
+.price small{font-size:10px;color:#ffe7a3}
+.quantity{display:flex;align-items:center;justify-content:center;gap:15px;background:#0c192a;border:1px solid #29445e;border-radius:9px;padding:5px}
+.quantity button{background:#233950;color:white;border-radius:7px;width:30px;height:29px;font-size:19px}
+.product .btn{font-size:12px;padding:9px 4px}
+.empty{text-align:center;color:var(--muted);padding:25px;grid-column:1/-1}
+.cart{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:17px}
+.cart-row{display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:center;border-bottom:1px solid var(--line);padding:13px 0}
+.cart-row h3{font-size:14px}
+.cart-row p{font-size:12px;color:var(--muted)}
+.cart-row .quantity{gap:7px}
+.cart-row .quantity button{width:27px;height:27px}
+.remove{background:transparent;color:#ff9a9a;font-size:12px}
+.total{display:flex;justify-content:space-between;gap:10px;padding:17px 0;font-weight:bold;font-size:18px}
+.cart-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:15px}
+.contact{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:25px;text-align:center;margin-top:30px}
+.phone{display:block;color:var(--blue);font-size:24px;font-weight:bold;direction:ltr;margin:10px}
+footer{text-align:center;color:var(--muted);border-top:1px solid var(--line);padding:22px;margin-top:30px;font-size:12px}
+[hidden]{display:none!important}
+@media(max-width:850px){.products{grid-template-columns:repeat(3,minmax(0,1fr))}.hero img{height:240px}}
+@media(max-width:580px){
+main{padding:13px}
+.hero{grid-template-columns:1fr;padding-top:8px}
+.hero img{height:200px}
+.category-grid{gap:10px}
+.category img{height:120px}
+.category-info{padding:9px}
+.category-info h3{font-size:14px}
+.category-info p{font-size:10px}
+.products{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.product img{height:120px}
+.product-body{padding:8px}
+.product h3{font-size:13px}
+.nav{justify-content:center}
+.nav-actions{justify-content:center}
+.logo{font-size:18px}
+.cart-row{grid-template-columns:1fr auto;gap:8px}
+.cart-row .quantity{grid-column:1}
+.cart-row .remove{grid-column:2;grid-row:2}
+}
+</style>
+</head>
+<body>
+
+<header>
+<div class="nav">
+<a href="#" class="logo" onclick="home();return false">💊 صيدلية الدكتور عمرو</a>
+<div class="nav-actions">
+<button class="nav-btn" onclick="home()">الرئيسية</button>
+<button class="nav-btn" onclick="showCart()">🛒 السلة <span id="cartCount">0</span></button>
+<button class="nav-btn" onclick="showContact()">تواصل معنا</button>
+</div>
+</div>
+</header>
+
+<main>
+<!-- الرئيسية -->
+<section id="homePage">
+<div class="hero">
+<div>
+<h1>كل احتياجاتك في <span>صيدلية الدكتور عمرو</span></h1>
+<p>اختار القسم، ابحث عن المنتج، حدد الكمية، وأرسل طلبك للصيدلية بسهولة.</p>
+<button class="btn" onclick="document.getElementById('departments').scrollIntoView({behavior:'smooth'})">تصفح الأقسام ←</button>
+</div>
+<img src="1.jpg" alt="صيدلية الدكتور عمرو"
+onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1576602976047-174e57a47881?auto=format&fit=crop&w=900&q=80'">
+</div>
+<h2 id="departments" class="center">أقسام الصيدلية</h2>
+<p class="subtitle">اضغط على القسم للدخول إلى منتجاته</p>
+<div class="category-grid" id="categoryGrid"></div>
+<div class="contact" id="contactBox">
+<h3>📞 تواصل معنا</h3>
+<p class="muted">صيدلية الدكتور عمرو في خدمتك</p>
+<a class="phone" href="tel:01554072787">01554072787</a>
+<a class="btn" href="https://wa.me/201554072787" target="_blank" rel="noopener">واتساب الصيدلية</a>
+</div>
+</section>
+
+<!-- صفحة القسم -->
+<section id="categoryPage" hidden>
+<div class="page-heading">
+<button class="back" onclick="goBack()">⬅️ رجوع</button>
+<h2 id="categoryTitle">منتجات القسم</h2>
+<button class="nav-btn" onclick="showCart()">🛒 السلة</button>
+</div>
+<p class="subtitle" id="categorySubtitle">ابحث وحدد الكمية</p>
+<div class="notice">الأسعار تجريبية وليست أسعار الصيدلية الفعلية. الصور توضيحية وقد لا تطابق عبوة المنتج. يجب تأكيد الأسماء والأسعار والتوافر قبل استقبال طلبات العملاء.</div>
+<input id="searchInput" class="search" type="search" placeholder="🔎 ابحث عن منتج داخل القسم..." aria-label="البحث عن منتج">
+<div class="filters" id="filters"></div>
+<p class="results" id="results"></p>
+<div class="products" id="productsGrid"></div>
+<button class="btn secondary" style="margin-top:20px" onclick="showCart()">مراجعة السلة ←</button>
+</section>
+
+<!-- صفحة السلة -->
+<section id="cartPage" hidden>
+<div class="page-heading">
+<button class="back" onclick="goBack()">⬅️ رجوع</button>
+<h2>🛒 سلة المشتريات</h2>
+</div>
+<p class="subtitle">راجع الكميات قبل إرسال طلبك</p>
+<div class="notice">الإجمالي تقريبي حتى تأكيد الأسعار والتوافر من الصيدلية.</div>
+<div class="cart">
+<div id="cartItems"></div>
+<div class="total" id="totalWrap" hidden>
+<span>الإجمالي التقريبي</span><span id="totalPrice">0 جنيه</span>
+</div>
+<div class="cart-actions">
+<button class="btn" onclick="sendOrder()">إرسال الطلب على واتساب</button>
+<button class="btn secondary" onclick="clearCart()">تفريغ السلة</button>
+</div>
+</div>
+</section>
+
+<!-- صفحة التواصل -->
+<section id="contactPage" hidden>
+<div class="page-heading">
+<button class="back" onclick="goBack()">⬅️ رجوع</button>
+<h2>تواصل معنا</h2>
+</div>
+<div class="contact">
+<h3>صيدلية الدكتور عمرو</h3>
+<p class="muted">للاستفسار عن المنتجات والأسعار</p>
+<a class="phone" href="tel:01554072787">01554072787</a>
+<a class="btn" href="https://wa.me/201554072787" target="_blank" rel="noopener">تواصل عبر واتساب</a>
+</div>
+</section>
+</main>
+
+<footer>© 2026 صيدلية الدكتور عمرو — جميع الحقوق محفوظة</footer>
+
+<script>
+const WHATSAPP_NUMBER = "201554072787";
+
+const sections = [
+{
+name:"الأقراص",icon:"💊",
+image:"https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=700&q=80",
+items:[
+"باراسيتامول أقراص","إيبوبروفين أقراص","فيتامين C أقراص","فيتامين D أقراص","زنك أقراص",
+"أقراص متعددة الفيتامينات","أقراص كالسيوم","أقراص حديد","أقراص مغنيسيوم","أقراص استحلاب للحلق",
+"أقراص مضاد للحموضة","أقراص فيتامين B12","أقراص أوميجا 3","أقراص بروبيوتك","أقراص فوار فيتامين C",
+"أقراص فوار معادن","أقراص فيتامين B","أقراص إلكتروليت","أقراص عناية بالفم","مكمل غذائي أقراص 1",
+"مكمل غذائي أقراص 2","مكمل غذائي أقراص 3","مكمل غذائي أقراص 4","مكمل غذائي أقراص 5","مكمل غذائي أقراص 6",
+"مكمل غذائي أقراص 7","مكمل غذائي أقراص 8","مكمل غذائي أقراص 9","مكمل غذائي أقراص 10","أقراص متنوعة"
+]
+},
+{
+name:"الشراب",icon:"🧴",
+image:"https://images.unsplash.com/photo-1603398938378-e54eab446dde?auto=format&fit=crop&w=700&q=80",
+items:[
+"شراب باراسيتامول - مثال","شراب للسعال - مثال","شراب طارد للبلغم - مثال","شراب فيتامين C","شراب متعدد الفيتامينات",
+"شراب مكمل غذائي 1","شراب مكمل غذائي 2","شراب حديد - مثال","شراب كالسيوم - مثال","شراب زنك - مثال",
+"شراب أملاح معالجة الجفاف","شراب أعشاب - مثال","شراب نعناع","شراب يانسون","شراب زنجبيل",
+"شراب فيتامين B - مثال","شراب فيتامين D - مثال","شراب بروبيوتك - مثال","شراب غذائي 1","شراب غذائي 2",
+"شراب غذائي 3","شراب غذائي 4","شراب غذائي 5","شراب غذائي 6","شراب غذائي 7",
+"شراب غذائي 8","شراب غذائي 9","شراب غذائي 10","شراب غذائي 11","شراب متنوع - مثال"
+]
+},
+{
+name:"الإكسسوارات",icon:"🩹",
+image:"https://images.unsplash.com/photo-1587854692152-cbe660dbde88?auto=format&fit=crop&w=700&q=80",
+items:[
+"شاش طبي","قطن طبي","ضمادات طبية","لاصق جروح","ترمومتر رقمي","جهاز قياس ضغط",
+"جهاز قياس سكر","شرائط قياس السكر","كمامات طبية","قفازات طبية","كحول طبي","مطهر جروح",
+"كيس ثلج فوري","رباط ضاغط","رباط شاش مرن","دعامة ركبة","دعامة رسغ","حزام طبي",
+"كيس مياه ساخنة","بلاستر طبي","علبة إسعافات أولية","فرشاة أسنان","خيط تنظيف الأسنان","مقياس حرارة",
+"علبة أقراص","كمادات باردة","كمادات دافئة","مستلزمات شخصية 1","مستلزمات شخصية 2","أدوات طبية متنوعة"
+]
+},
+{
+name:"الكريمات ومنظفات البشرة",icon:"✨",
+image:"https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?auto=format&fit=crop&w=700&q=80",
+items:[
+"كريم مرطب للوجه","غسول للبشرة الجافة","غسول للبشرة الدهنية","غسول للبشرة الحساسة","واقي شمس SPF 50",
+"مرطب شفاه","كريم مرطب لليدين","فازلين طبي","كريم بانثينول - مثال","كريم ترطيب الجسم",
+"ماء ميسيلار","مزيل مكياج","تونر للوجه","سيروم ترطيب - مثال","سيروم فيتامين C - مثال",
+"سيروم هيالورونيك - مثال","كريم حول العين - مثال","كريم قدمين مرطب","كريم يوريا - مثال","غسول جسم",
+"لوشن جسم","صابون للبشرة الحساسة","صابون مرطب","مقشر وجه - مثال","ماسك ترطيب الوجه",
+"كريم يدين مرطب","بلسم شفاه","كريم عناية بالبشرة 1","كريم عناية بالبشرة 2","منظف بشرة متنوع"
+]
+}
+];
+
+const products = [];
+let nextId = 1;
+
+sections.forEach((section,index) => {
+section.items.forEach((name,i) => {
+products.push({
+id:nextId++,
+name,
+category:section.name,
+image:section.image,
+price:25+((i*17+index*11)%176)
+});
+});
+});
+
+let currentPage = "home";
+let previousPage = "home";
+let activeCategory = "";
+const quantities = {};
+const cart = {};
+
+function money(n){return n.toLocaleString("en-US")+" جنيه"}
+
+function hidePages(){
+["homePage","categoryPage","cartPage","contactPage"].forEach(id=>{
+document.getElementById(id).hidden=true;
+});
+}
+
+function navigate(page){
+previousPage=currentPage;
+currentPage=page;
+hidePages();
+const pages={home:"homePage",category:"categoryPage",cart:"cartPage",contact:"contactPage"};
+document.getElementById(pages[page]).hidden=false;
+window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function home(){
+navigate("home");
+}
+
+function goBack(){
+if(currentPage==="cart" || currentPage==="contact"){
+if(previousPage==="category" && activeCategory){
+currentPage="home";
+openCategory(activeCategory);
+}else{
+home();
+}
+}else{
+home();
+}
+}
+
+function openCategory(name){
+previousPage=currentPage;
+activeCategory=name;
+currentPage="category";
+hidePages();
+document.getElementById("categoryPage").hidden=false;
+document.getElementById("categoryTitle").textContent=name;
+document.getElementById("categorySubtitle").textContent="تصفح "+name+" وحدد الكمية المطلوبة";
+document.getElementById("searchInput").value="";
+makeFilters();
+renderProducts();
+window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function showCart(){
+previousPage=currentPage;
+navigate("cart");
+renderCart();
+}
+
+function showContact(){
+previousPage=currentPage;
+navigate("contact");
+}
+
+function makeCategories(){
+const grid=document.getElementById("categoryGrid");
+grid.innerHTML="";
+sections.forEach(section=>{
+const button=document.createElement("button");
+button.className="category";
+const img=document.createElement("img");
+img.src=section.image;
+img.alt="صورة توضيحية لقسم "+section.name;
+img.loading="lazy";
+img.onerror=()=>{img.src="https://images.unsplash.com/photo-1576602976047-174e57a47881?auto=format&fit=crop&w=700&q=80"};
+
+const info=document.createElement("div");
+info.className="category-info";
+const title=document.createElement("h3");
+title.textContent=section.icon+" "+section.name;
+const count=document.createElement("p");
+count.textContent="30 صنف";
+const enter=document.createElement("div");
+enter.className="enter";
+enter.textContent="افتح القسم ←";
+info.append(title,count,enter);
+button.append(img,info);
+button.onclick=()=>openCategory(section.name);
+grid.appendChild(button);
+});
+}
+
+function makeFilters(){
+const filters=document.getElementById("filters");
+filters.innerHTML="";
+const button=document.createElement("button");
+button.className="filter active";
+button.textContent="كل أصناف القسم";
+button.onclick=()=>{
+document.getElementById("searchInput").value="";
+renderProducts();
+};
+filters.appendChild(button);
+}
+
+function renderProducts(){
+const grid=document.getElementById("productsGrid");
+const query=document.getElementById("searchInput").value.trim().toLowerCase();
+const shown=products.filter(p=>p.category===activeCategory&&p.name.toLowerCase().includes(query));
+document.getElementById("results").textContent="عدد النتائج: "+shown.length+" من 30";
+grid.innerHTML="";
+
+if(!shown.length){
+grid.innerHTML='<p class="empty">مفيش منتجات مطابقة للبحث.</p>';
+return;
+}
+
+shown.forEach(p=>{
+const card=document.createElement("article");
+card.className="product";
+const img=document.createElement("img");
+img.src=p.image;
+img.alt="صورة توضيحية لمنتج "+p.name;
+img.loading="lazy";
+img.onerror=()=>{img.style.display="none"};
+
+const body=document.createElement("div");
+body.className="product-body";
+const tag=document.createElement("span");
+tag.className="tag";
+tag.textContent=p.category;
+const name=document.createElement("h3");
+name.textContent=p.name;
+const desc=document.createElement("p");
+desc.className="desc";
+desc.textContent="سعر تجريبي — للتأكيد";
+const price=document.createElement("div");
+price.className="price";
+price.textContent=money(p.price);
+const note=document.createElement("small");
+note.textContent=" (تجريبي)";
+price.appendChild(note);
+
+const qty=document.createElement("div");
+qty.className="quantity";
+const minus=document.createElement("button");
+minus.textContent="−";
+const number=document.createElement("span");
+number.textContent=quantities[p.id]||1;
+const plus=document.createElement("button");
+plus.textContent="+";
+
+minus.onclick=()=>{
+quantities[p.id]=Math.max(1,(quantities[p.id]||1)-1);
+number.textContent=quantities[p.id];
+};
+plus.onclick=()=>{
+quantities[p.id]=(quantities[p.id]||1)+1;
+number.textContent=quantities[p.id];
+};
+qty.append(minus,number,plus);
+
+const add=document.createElement("button");
+add.className="btn";
+add.textContent="أضف للسلة";
+add.onclick=()=>{
+cart[p.id]=(cart[p.id]||0)+(quantities[p.id]||1);
+renderCart();
+add.textContent="تمت الإضافة ✓";
+setTimeout(()=>add.textContent="أضف للسلة",1000);
+};
+body.append(tag,name,desc,price,qty,add);
+card.append(img,body);
+grid.appendChild(card);
+});
+}
+
+function renderCart(){
+const container=document.getElementById("cartItems");
+container.innerHTML="";
+let total=0,count=0;
+
+Object.entries(cart).forEach(([id,qty])=>{
+const p=products.find(item=>item.id===Number(id));
+if(!p||qty<=0)return;
+total+=p.price*qty;
+count+=qty;
+
+const row=document.createElement("div");
+row.className="cart-row";
+const info=document.createElement("div");
+const name=document.createElement("h3");
+name.textContent=p.name;
+const detail=document.createElement("p");
+detail.textContent=p.category+" — "+money(p.price)+" للقطعة";
+info.append(name,detail);
+
+const subtotal=document.createElement("strong");
+subtotal.textContent=money(p.price*qty);
+
+const controls=document.createElement("div");
+controls.className="quantity";
+const minus=document.createElement("button");
+minus.textContent="−";
+minus.onclick=()=>{cart[p.id]--;if(cart[p.id]<=0)delete cart[p.id];renderCart()};
+const num=document.createElement("span");
+num.textContent=qty;
+const plus=document.createElement("button");
+plus.textContent="+";
+plus.onclick=()=>{cart[p.id]++;renderCart()};
+controls.append(minus,num,plus);
+
+const remove=document.createElement("button");
+remove.className="remove";
+remove.textContent="حذف";
+remove.onclick=()=>{delete cart[p.id];renderCart()};
+
+row.append(info,subtotal,controls,remove);
+container.appendChild(row);
+});
+
+document.getElementById("cartCount").textContent=count;
+document.getElementById("totalWrap").hidden=count===0;
+
+if(count){
+document.getElementById("totalPrice").textContent=money(total);
+}else{
+container.innerHTML='<p class="empty">السلة فارغة، ارجع للأقسام واختر منتجاتك.</p>';
+}
+}
+
+function clearCart(){
+Object.keys(cart).forEach(id=>delete cart[id]);
+renderCart();
+}
+
+function sendOrder(){
+const entries=Object.entries(cart);
+if(!entries.length){
+alert("السلة فارغة. أضف منتجًا أولًا.");
+return;
+}
+let total=0;
+let message="السلام عليكم، أريد الاستفسار عن طلب من صيدلية الدكتور عمرو:\n\n";
+entries.forEach(([id,qty])=>{
+const p=products.find(item=>item.id===Number(id));
+if(!p)return;
+total+=p.price*qty;
+message+="• "+p.name+"\nالقسم: "+p.category+"\nالكمية: "+qty+
+"\nالسعر التجريبي للقطعة: "+p.price+" جنيه\n\n";
+});
+message+="الإجمالي التجريبي: "+total+
+" جنيه\n\nيرجى تأكيد الأسعار والتوافر قبل تجهيز الطلب.";
+window.open("https://wa.me/"+WHATSAPP_NUMBER+"?text="+encodeURIComponent(message),"_blank");
+}
+
+document.getElementById("searchInput").addEventListener("input",renderProducts);
+
+makeCategories();
+renderCart();
+</script>
+</body>
+</html>
